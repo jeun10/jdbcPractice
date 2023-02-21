@@ -1,18 +1,17 @@
+
 package com.ssamz.web.user;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 
 import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.ssamz.biz.user.UserDAO;
 import com.ssamz.biz.user.UserVo;
@@ -21,10 +20,11 @@ import com.ssamz.biz.user.UserVo;
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
+	@Override
 	protected void service(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
-		// 1. 사용자 입력 정보 추출
+		// 1. 로그인 화면에서 사용자 입력 정보 주출
+		// id : 자바변수 "id" : login.html의 name에서 가져온다
 		String id = request.getParameter("id");
 		String password = request.getParameter("password");
 
@@ -41,23 +41,43 @@ public class LoginServlet extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		// 메시지 출력
 		if (user != null) {
-			if(user.getPassword().equals(password)) {
+			if (user.getPassword().equals(password)) {
+
+				// 상태 정보를 쿠키에 저장하여 전송한다. 하면서 name = value가 한쌍으로 지정
+				//2
+				HttpSession session=request.getSession();
+				//session.setMaxInactiveInterval(10);
+
+				session.setAttribute("userId", user.getId());
+				session.setAttribute("userName", user.getName());
+				session.setAttribute("userRole", user.getRole());
+
 				// 글 목록 화면으로 포워딩한다.
-				// 상태 정보를 쿠키에 저장하여 전송한다.
-				Cookie userId = new Cookie("userId", user.getId());
-				response.addCookie(userId);
-				
 				RequestDispatcher dispatcher=request.getRequestDispatcher("getBoardList.do");
 				dispatcher.forward(request, response);
-				}
-			else {
+
+				
+				//1
+				//Cookie userId = new Cookie("userId", user.getId());
+				//response.addCookie(userId);
+				//response.sendRedirect("/getBoardList.do");
+				
+				//0
+				// Cookie userId = new Cookie("userId", user.getId());
+				// response.addCookie(userId);
+
+				// RequestDispatcher dispatcher=request.getRequestDispatcher("getBoardList.do");
+				// dispatcher.forward(request, response);
+
+			} else {
 				out.println("비밀번호 오류입니다.<br>");
 				out.println("<a href='/'>다시 로그인</a>");
 			}
-		} 
-		else {
+
+		} else {
 			out.println("아이디 오류입니다.<br>");
 			out.println("<a href='/'>다시 로그인</a>");
+
 		}
 	}
 

@@ -22,5 +22,9 @@ public class BoardVO {
 	private Date regDate;
 	private int cnt;
 
+	//검색관련
+	private String searchCondition;
+	private String searchKeyword;
+
 	
 }

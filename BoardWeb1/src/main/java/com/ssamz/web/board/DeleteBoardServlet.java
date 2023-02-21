@@ -10,6 +10,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.ssamz.biz.board.BoardDAO;
 import com.ssamz.biz.board.BoardVO;
@@ -23,10 +24,13 @@ public class DeleteBoardServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// 0. 상태 정보 체크( page 232 )
+		/*
 		Cookie[] cookieList = request.getCookies();
 		if (cookieList == null) {
 			response.sendRedirect("/login.html");
-		} else {
+		}
+		else {
+		
 			String userId = null;
 
 			for (Cookie cookie : cookieList) {
@@ -37,7 +41,16 @@ public class DeleteBoardServlet extends HttpServlet {
 			if (userId == null) {
 				response.sendRedirect("/login.html");
 			}
+		}*/
+		
+		//0. 상태 정보 체크
+		HttpSession session=request.getSession();
+		String userId = (String)session.getAttribute("userId");
+		if(userId == null) {
+			response.sendRedirect("/");
+			return;
 		}
+
 		// 1. 사용자 입력 정보 추출
 		String seq = request.getParameter("seq");
 
@@ -49,7 +62,8 @@ public class DeleteBoardServlet extends HttpServlet {
 		dao.deleteBoard(vo);
 
 		// 3. 화면 이동
-		RequestDispatcher dispatcher = request.getRequestDispatcher("getBoardList.do");
-		dispatcher.forward(request, response);
+		//RequestDispatcher dispatcher = request.getRequestDispatcher("getBoardList.do");
+		//dispatcher.forward(request, response);
+		response.sendRedirect("getBoardList.do"); 
 	}
 }

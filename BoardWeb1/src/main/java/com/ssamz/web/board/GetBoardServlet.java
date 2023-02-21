@@ -5,10 +5,10 @@ import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.ssamz.biz.board.BoardDAO;
 import com.ssamz.biz.board.BoardVO;
@@ -20,6 +20,7 @@ public class GetBoardServlet extends HttpServlet {
 	protected void service(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// 0. 상태 정보 체크( page 231 )
+		/*
 		Cookie[] cookieList = request.getCookies();
 		if (cookieList == null) {
 			response.sendRedirect("/login.html");
@@ -34,9 +35,17 @@ public class GetBoardServlet extends HttpServlet {
 			if (userId == null) {
 				response.sendRedirect("/login.html");
 			}
+		}*/
+		//0. 상태 정보 체크
+		HttpSession session=request.getSession();
+		String userId = (String)session.getAttribute("userId");
+		if(userId == null) {
+			response.sendRedirect("/");
+			System.out.println("hello");
 		}
+
 		// 1. 사용자 입력 정보 추출
-		String seq = request.getParameter("seq");
+		String seq = request.getParameter("seq").trim();
 		// 2.DB 연동 처리
 		BoardVO vo = new BoardVO();
 		vo.setSeq(Integer.parseInt(seq));
@@ -88,7 +97,12 @@ public class GetBoardServlet extends HttpServlet {
 		out.println("</form>");
 		out.println("<hr>");
 		out.println("<a href='insertBoard.html'>글등록</a>&nbsp;&nbsp;&nbsp;");
-		out.println("<a href='deleteBoard.do?seq=" + board.getSeq() + "'>글삭제</a>");
+		String userRole=(String)session.getAttribute("userRole");
+		if(userRole.equals("ADMIN")) {
+			
+			out.println("<a href='deleteBoard.do?seq=" + board.getSeq() + "'>글삭제</a>&nbsp;&nbsp;&nbsp;");
+
+		}
 		out.println("<a href='getBoardList.do'>글목록</a>");
 		out.println("</center>");
 		out.println("</body>");
