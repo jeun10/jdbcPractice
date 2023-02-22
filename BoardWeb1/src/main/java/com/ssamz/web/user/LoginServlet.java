@@ -5,9 +5,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -52,9 +52,14 @@ public class LoginServlet extends HttpServlet {
 				session.setAttribute("userName", user.getName());
 				session.setAttribute("userRole", user.getRole());
 
+				ServletContext context = getServletContext();
+
+				context.setAttribute("welcomeMessage", "님 환영합니다??");
+				response.sendRedirect("getBoardList.do");
+				
 				// 글 목록 화면으로 포워딩한다.
-				RequestDispatcher dispatcher=request.getRequestDispatcher("getBoardList.do");
-				dispatcher.forward(request, response);
+				//RequestDispatcher dispatcher=request.getRequestDispatcher("getBoardList.do");
+				//dispatcher.forward(request, response);
 
 				
 				//1
@@ -68,6 +73,9 @@ public class LoginServlet extends HttpServlet {
 
 				// RequestDispatcher dispatcher=request.getRequestDispatcher("getBoardList.do");
 				// dispatcher.forward(request, response);
+			
+				//글 목록 화면에서 사용할 데이터를 HttpServletRequest에 등록한다.
+
 
 			} else {
 				out.println("비밀번호 오류입니다.<br>");

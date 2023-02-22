@@ -61,7 +61,7 @@ public class GetBoardListServlet extends HttpServlet {
 			searchCondition = "TITLE";
 		if (searchKeyword == null)
 			searchKeyword = "";
-		
+
 		session.setAttribute("condition", searchCondition);
 		session.setAttribute("keyword", searchKeyword);
 
@@ -82,9 +82,10 @@ public class GetBoardListServlet extends HttpServlet {
 		out.println("<body>");
 		out.println("<center>");
 		out.println("<h1>게시글 목록</h1>");
-		String userName = (String) session.getAttribute("userName");
-
-		out.println("<h3>" + userName + " 님 로그인 환영합니다.......");
+		String userName = (String)session.getAttribute("userName");
+		String welcomeMessage = (String)context.getAttribute("welcomeMessage");
+		out.println("<h3>" + userName + welcomeMessage);
+		// out.println("<h3>" + userName + " 님 로그인 환영합니다.......");
 		out.println("<a href='logout.do'>Log-out</a></h3>");
 
 		out.println("<!--검색 시작 -->");
@@ -93,27 +94,23 @@ public class GetBoardListServlet extends HttpServlet {
 		out.println("<tr>");
 		out.println("<td align='right'>");
 		out.println("<select name='searchCondition'>");
-		String condition = (String)session.getAttribute("condition");
+		String condition = (String) session.getAttribute("condition");
 		if (condition.equals("TITLE")) {
 			out.println("<option value='TITLE' selected>제목");
-		} 
-		else {
+		} else {
 			out.println("<option value='TITLE'>제목");
 		}
 		if (condition.equals("CONTENT")) {
 			out.println("<option value='CONTENT' selected>내용");
-		}
-		else {
+		} else {
 			out.println("<option value='CONTENT'>내용");
 		}
-		//out.println("<option value='TITLE'>제목");
-		//out.println("<option value='CONTENT'>내용");
-		//out.println("<input name='searchKeyword' type='text' />");
-		
-		
+		// out.println("<option value='TITLE'>제목");
+		// out.println("<option value='CONTENT'>내용");
+		// out.println("<input name='searchKeyword' type='text' />");
 
 		out.println("</select>");
-		out.println("<input name='searchKeyword' type='text' value='" +	session.getAttribute("keyword") + "'/>");
+		out.println("<input name='searchKeyword' type='text' value='" + session.getAttribute("keyword") + "'/>");
 
 		out.println("<input type='submit' value='검색'/>");
 		out.println("</td>");
