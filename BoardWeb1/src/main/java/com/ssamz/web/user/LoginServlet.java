@@ -23,6 +23,7 @@ public class LoginServlet extends HttpServlet {
 	@Override
 	protected void service(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		System.out.println("=====>LoginServlet 실행");
 		// 1. 로그인 화면에서 사용자 입력 정보 주출
 		// id : 자바변수 "id" : login.html의 name에서 가져온다
 		String id = request.getParameter("id");

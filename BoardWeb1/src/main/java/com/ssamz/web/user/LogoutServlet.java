@@ -12,7 +12,8 @@ import javax.servlet.http.HttpSession;
 public class LogoutServlet extends HttpServlet {
 	protected void service(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
-		
+		System.out.println("=====>LogoutServlet 실행");
+
 		HttpSession session = request.getSession();
 		session.invalidate();
 		
