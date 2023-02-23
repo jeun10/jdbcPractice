@@ -37,15 +37,16 @@ public class GetBoardServlet extends HttpServlet {
 			}
 		}*/
 		//0. 상태 정보 체크
+		/*
 		HttpSession session=request.getSession();
 		String userId = (String)session.getAttribute("userId");
 		if(userId == null) {
 			response.sendRedirect("/");
 			System.out.println("hello");
-		}
+		}*/
 
 		// 1. 사용자 입력 정보 추출
-		String seq = request.getParameter("seq").trim();
+		String seq = request.getParameter("seq");
 		// 2.DB 연동 처리
 		BoardVO vo = new BoardVO();
 		vo.setSeq(Integer.parseInt(seq));
@@ -97,6 +98,8 @@ public class GetBoardServlet extends HttpServlet {
 		out.println("</form>");
 		out.println("<hr>");
 		out.println("<a href='insertBoard.html'>글등록</a>&nbsp;&nbsp;&nbsp;");
+		HttpSession session=request.getSession();
+
 		String userRole=(String)session.getAttribute("userRole");
 		if(userRole.equals("ADMIN")) {
 			

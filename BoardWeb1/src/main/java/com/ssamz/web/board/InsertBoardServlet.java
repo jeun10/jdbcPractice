@@ -17,13 +17,13 @@ import com.ssamz.biz.board.BoardVO;
 public class InsertBoardServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
-	private String encoding;
+	//private String encoding;
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		ServletContext context = getServletContext();
-		this.encoding=context.getInitParameter("boardEncoding");
-		request.setCharacterEncoding(encoding);
+		//ServletContext context = getServletContext();
+		//this.encoding=context.getInitParameter("boardEncoding");
+		//request.setCharacterEncoding(encoding);
 		String title=request.getParameter("title");
 		String writer=request.getParameter("writer");
 		String content=request.getParameter("content");
@@ -40,8 +40,5 @@ public class InsertBoardServlet extends HttpServlet {
 		dispatcher.forward(request, response);
 		
 	}
-	
-
-	
-	
+		
 }

@@ -43,24 +43,28 @@ public class GetBoardListServlet extends HttpServlet {
 		 * System.out.println("---> 재사용중인 세션: " + sessionId); }
 		 */
 
+		/*
 		HttpSession session = request.getSession();
 		String userId = (String) session.getAttribute("userId");
 		if (userId == null) {
 			response.sendRedirect("/");
-		}
+		}*/
 
 		// 0-1.사용자 입력정보 추출 : 검색키워드에 한글이 입력 될 수 있으므로 인코딩을 한다.
 
-		ServletContext context = request.getServletContext();
-		String encoding = context.getInitParameter("boardEncoding");
-		request.setCharacterEncoding(encoding);
+		// ServletContext context = request.getServletContext();
+		// String encoding = context.getInitParameter("boardEncoding");
+		// request.setCharacterEncoding(encoding);
 		String searchCondition = request.getParameter("searchCondition");
 		String searchKeyword = request.getParameter("searchKeyword");
 		// Null Check : 글 목록 화면을 직접요청시 검색값을 전달하지 않으므로 기본값을 설정한다.
-		if (searchCondition == null)
+		if (searchCondition == null) {
 			searchCondition = "TITLE";
-		if (searchKeyword == null)
+		}
+		if (searchKeyword == null) {
 			searchKeyword = "";
+		}
+		HttpSession session=request.getSession();
 
 		session.setAttribute("condition", searchCondition);
 		session.setAttribute("keyword", searchKeyword);
@@ -82,10 +86,10 @@ public class GetBoardListServlet extends HttpServlet {
 		out.println("<body>");
 		out.println("<center>");
 		out.println("<h1>게시글 목록</h1>");
-		String userName = (String)session.getAttribute("userName");
-		String welcomeMessage = (String)context.getAttribute("welcomeMessage");
-		out.println("<h3>" + userName + welcomeMessage);
-		// out.println("<h3>" + userName + " 님 로그인 환영합니다.......");
+		String userName = (String) session.getAttribute("userName");
+		// String welcomeMessage = (String)context.getAttribute("welcomeMessage");
+		// out.println("<h3>" + userName + welcomeMessage);
+		out.println("<h3>" + userName + " 님 로그인 환영합니다.......");
 		out.println("<a href='logout.do'>Log-out</a></h3>");
 
 		out.println("<!--검색 시작 -->");

@@ -22,9 +22,9 @@ public class UpdateBoardServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		// 인코딩 설정
-		ServletContext context= getServletContext();
-		encoding=context.getInitParameter("boardEncoding");
-		request.setCharacterEncoding("UTF-8");
+		//ServletContext context= getServletContext();
+		//encoding=context.getInitParameter("boardEncoding");
+		//request.setCharacterEncoding("UTF-8");
 		
 		// 1. 사용자 입력 정보 추출
 		String title = request.getParameter("title");

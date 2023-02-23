@@ -42,14 +42,14 @@ public class DeleteBoardServlet extends HttpServlet {
 				response.sendRedirect("/login.html");
 			}
 		}*/
-		
+		/*
 		//0. 상태 정보 체크
 		HttpSession session=request.getSession();
 		String userId = (String)session.getAttribute("userId");
 		if(userId == null) {
 			response.sendRedirect("/");
 			return;
-		}
+		}*/
 
 		// 1. 사용자 입력 정보 추출
 		String seq = request.getParameter("seq");
